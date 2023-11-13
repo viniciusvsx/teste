@@ -1,0 +1,1822 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Observations",
+    "description": "Observations are a central element in healthcare, used to support diagnosis, monitor progress, determine baselines and patterns and even capture demographic characteristics, as well as capture results of tests performed on products and substances. Most observations are simple name/value pair assertions with some metadata, but some observations group other observations together logically, or even are multi-component observations. \n\nAs observações são um elemento central na área da saúde, utilizadas para dar suporte ao diagnóstico, monitorar o progresso, determinar bases e padrões, e até mesmo capturar características demográficas, bem como os resultados de testes realizados em produtos e substâncias. A maioria das observações são afirmações simples de pares nome/valor com algum metadado, mas algumas observações agrupam logicamente outras observações ou até mesmo são observações multicompontentes.",
+    "termsOfService": "",
+    "contact": {
+      "email": "spdata@spdata.com.br"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "0.5"
+  },
+  "externalDocs": {
+    "description": "Find out more about spec",
+    "url": ""
+  },
+  "servers": [
+    {
+      "url": "https://api.spdata.com.br",
+      "description": ""
+    }
+  ],
+  "tags": [
+    {
+      "name": "Vital Signs",
+      "description": "\"Vital Signs\" observations typically include important physiological measurements that provide essential information about a patient's overall health."
+    },
+    {
+      "name": "Observations",
+      "description": "This endpoint allows grouping the recording of vital signs, aiming to indicate that the data originated from the same document or context. For example, if there is body surface area data, it is necessary for weight and height to be associated with this data.",
+      "externalDocs": {
+        "description": "",
+        "url": ""
+      }
+    },
+    {
+      "name": "Local Observations",
+      "description": "Local Observations is the association between standard observations from the RES and the local client's observations.",
+      "externalDocs": {
+        "description": "",
+        "url": ""
+      }
+    }
+  ],
+  "paths": {
+    "/ehr/v1/observations/vitalSigns": {
+      "get": {
+        "summary": "Get all vital signs",
+        "description": "Get all vital signs",
+        "operationId": "getall_vitalsigns",
+        "tags": [
+          "Vital Signs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/size"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-subtenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-api-key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_embedded": {
+                      "type": "object",
+                      "properties": {
+                        "vitalSigns": {
+                          "$ref": "#/components/schemas/vitalSigns"
+                        }
+                      }
+                    },
+                    "_links": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Link"
+                      }
+                    },
+                    "page": {
+                      "$ref": "#/components/schemas/PageMetadata"
+                    }
+                  },
+                  "required": [
+                    "page"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authentication": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create a vital sign",
+        "description": "Create a vital sign",
+        "operationId": "create_vitalsigns",
+        "tags": [
+          "Vital Signs"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/vitalSigns"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/vitalSigns"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ehr/v1/observations/vitalSign/{id}": {
+      "get": {
+        "summary": "Get a vital sign",
+        "description": "Retrieve a vital sign",
+        "operationId": "get_vitalsign",
+        "tags": [
+          "Vital Signs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/size"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-subtenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-api-key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/vitalSigns"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authentication": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update a vital sign",
+        "description": "Update a vital sign",
+        "operationId": "put_vitalsign",
+        "tags": [
+          "Vital Signs"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Medication Id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/vitalSigns"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/vitalSigns"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Patch a vital sign",
+        "description": "Update a vital sign",
+        "operationId": "pacth_vitalsign",
+        "tags": [
+          "Vital Signs"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Medication Id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/vitalSigns"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/vitalSigns"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a vital sign",
+        "description": "Delete a observation",
+        "operationId": "delete_vitalsign",
+        "tags": [
+          "Vital Signs"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Id",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ]
+    },
+    "/ehr/v1/observations/localObservations": {
+      "get": {
+        "summary": "Get all local observations",
+        "description": "Get all local observations",
+        "operationId": "getall_localobs",
+        "tags": [
+          "Local Observations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/size"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-subtenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-api-key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_embedded": {
+                      "type": "object",
+                      "properties": {
+                        "vitalSigns": {
+                          "$ref": "#/components/schemas/localObservations"
+                        }
+                      }
+                    },
+                    "_links": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Link"
+                      }
+                    },
+                    "page": {
+                      "$ref": "#/components/schemas/PageMetadata"
+                    }
+                  },
+                  "required": [
+                    "page"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authentication": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create a local observation",
+        "description": "Create a local observation",
+        "operationId": "create_localobs",
+        "tags": [
+          "Local Observations"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/localObservations"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/localObservations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ehr/v1/observations/localObservations/{id}": {
+      "get": {
+        "summary": "Get a local observations",
+        "description": "Retrieve the association between standardobservations from the RES and the local client's observations.",
+        "operationId": "get_localobs",
+        "tags": [
+          "Local Observations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/size"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-subtenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-api-key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/localObservations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authentication": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update a local observations",
+        "description": "Update the association between standard vital signs from the RES and the local client's vital signs.",
+        "operationId": "put_localobs",
+        "tags": [
+          "Local Observations"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/localObservations"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/localObservations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Patch a local observations",
+        "description": "Activate  ou inactivate the association between standard vital signs from the RES and the local client's vital signs.",
+        "operationId": "pacth_localobs",
+        "tags": [
+          "Local Observations"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Medication Id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/localObservations"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/localObservations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Local observations Id",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ]
+    },
+    "/ehr/v1/observations": {
+      "get": {
+        "summary": "Get all observations",
+        "description": "Retrieve all registered observations. ",
+        "operationId": "getall_obs",
+        "tags": [
+          "Observations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/size"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-subtenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-api-key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_embedded": {
+                      "type": "object",
+                      "properties": {
+                        "observations": {
+                          "$ref": "#/components/schemas/observations"
+                        }
+                      }
+                    },
+                    "_links": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Link"
+                      }
+                    },
+                    "page": {
+                      "$ref": "#/components/schemas/PageMetadata"
+                    }
+                  },
+                  "required": [
+                    "page"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authentication": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create a observation",
+        "description": "Create a vital sign",
+        "operationId": "create_aobs",
+        "tags": [
+          "Observations"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/observations"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/observations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ehr/v1/observations/{id}": {
+      "get": {
+        "summary": "Get a observation",
+        "description": "Retrieve a observation",
+        "operationId": "get_obs",
+        "tags": [
+          "Observations"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/size"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-subtenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-api-key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/observations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authentication": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update a observations",
+        "description": "Update a observation",
+        "operationId": "put_obs",
+        "tags": [
+          "Observations"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/observations"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/observations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Patch a observation",
+        "description": "Update a observation",
+        "operationId": "pacth_obs",
+        "tags": [
+          "Observations"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/observations"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/observations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a observation",
+        "description": "Delete a observation",
+        "operationId": "delete_obs",
+        "tags": [
+          "Observations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "OK"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled error.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Id",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "400": {
+        "type": "string",
+        "description": "Registro não encontrado!"
+      },
+      "401": {
+        "type": "string",
+        "description": "Sem autorização por favor verifique se: Usuário ou senha são válidos; Você foi autenticado para essa operação; Ou você tem permissão para essa operação."
+      },
+      "403": {
+        "type": "string",
+        "description": "Invalid API Key"
+      },
+      "500": {
+        "type": "object",
+        "properties": {},
+        "description": "Erro não previsto. Por favor entre em contato com o suporte."
+      },
+      "PageMetadata": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "number",
+            "description": "Pagination size."
+          },
+          "totalElements": {
+            "type": "number",
+            "description": "Number of returned elements."
+          },
+          "totalPages": {
+            "type": "number",
+            "description": "Total number of pages."
+          },
+          "number": {
+            "type": "number",
+            "description": "Current page."
+          }
+        },
+        "description": "Pagination data."
+      },
+      "Link": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The URL of the link."
+          },
+          "hreflang": {
+            "type": "string",
+            "description": "The language of the linked resource."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the linked resource."
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the linked resource."
+          },
+          "deprecation": {
+            "type": "string",
+            "description": "The deprecation status of the linked resource."
+          },
+          "profile": {
+            "type": "string",
+            "description": "The profile of the linked resource."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the linked resource."
+          },
+          "templated": {
+            "type": "boolean",
+            "description": "Indicates if the URL is a template containing placeholders to be filled."
+          }
+        }
+      },
+      "vitalSigns": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier for vital sign",
+            "format": "uuid"
+          },
+          "observationsId": {
+            "type": "string",
+            "description": "Identifier observations",
+            "format": "uuid"
+          },
+          "localObservationsId": {
+            "type": "string",
+            "description": "Id by local observation",
+            "format": "uuid"
+          },
+          "valueQuantity": {
+            "type": "number",
+            "description": "Actual value quantity"
+          },
+          "valueString": {
+            "type": "string",
+            "description": "Actual value string"
+          },
+          "ucumId": {
+            "type": "string",
+            "description": "Id of the unit of measurement for the localObservation"
+          },
+          "referenceAge": {
+            "type": "string",
+            "description": "Applicable age range, if relevant",
+            "maxLength": 255,
+            "pattern": ""
+          },
+          "referenceGender": {
+            "type": "string",
+            "description": "Applicable gender range, if relevant",
+            "maxLength": 255,
+            "pattern": ""
+          },
+          "referenceHigh": {
+            "type": "string",
+            "description": "High Range, if relevant",
+            "maxLength": 255
+          },
+          "referenceLow": {
+            "type": "string",
+            "description": "Low Range, if relevant",
+            "maxLength": 255
+          },
+          "highOutlier": {
+            "type": "string",
+            "description": "Referring to an unusually high value, if relevant",
+            "maxLength": 255
+          },
+          "lowOutlier": {
+            "type": "string",
+            "description": "Referring to an unusually low value, if relevant",
+            "maxLength": 255
+          },
+          "referenceJustificative": {
+            "type": "string",
+            "description": "Reference justificative, if relevant"
+          },
+          "status": {
+            "type": "string",
+            "description": "Codes providing the status of an observation.",
+            "format": "uuid"
+          },
+          "suspendJustificative": {
+            "type": "string",
+            "description": "Justification for suspension",
+            "maxLength": null,
+            "pattern": ""
+          },
+          "suspendPratictionerId": {
+            "type": "string",
+            "description": "ID of the professional who performed the suspension",
+            "format": "uuid"
+          },
+          "suspendRetroactiveJustificative": {
+            "type": "string",
+            "description": "If the suspension was done retroactively, it should receive a justification",
+            "maxLength": null,
+            "pattern": ""
+          },
+          "suspendEventDateTime": {
+            "type": "string",
+            "description": "Date and time when the observation was suspended by a professional",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "localObservationsId",
+          "status",
+          "observationsId"
+        ]
+      },
+      "observations": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier for observation",
+            "format": "uuid"
+          },
+          "individualId": {
+            "type": "string",
+            "description": "Who and/or what the observation is about",
+            "format": "uuid"
+          },
+          "encounterId": {
+            "type": "string",
+            "description": "Healthcare event during which this observation is made",
+            "format": "uuid"
+          },
+          "company": {
+            "type": "string",
+            "description": "ID subtenant",
+            "maxLength": 5
+          },
+          "basedOn": {
+            "type": "string",
+            "description": "Fulfills plan, compositions or order",
+            "format": "uuid"
+          },
+          "basedOnId": {
+            "type": "string",
+            "description": "The ID of the document that generated the record.",
+            "format": "uuid"
+          },
+          "eventDateTime": {
+            "type": "string",
+            "description": "Date and time of the event that generated the record.",
+            "format": "date-time"
+          },
+          "retroactiveJustificative": {
+            "type": "string",
+            "description": "The justificative if the event is retroactive"
+          },
+          "performer": {
+            "type": "string",
+            "description": "Who is responsible for the observation",
+            "format": "uuid"
+          },
+          "performerId": {
+            "type": "string",
+            "description": "The ID who reported the observation"
+          },
+          "sourceApplicationId": {
+            "type": "string",
+            "description": "Source application of the information."
+          },
+          "suspendJustificative": {
+            "type": "string",
+            "description": "Justification for suspension",
+            "maxLength": null,
+            "pattern": ""
+          },
+          "suspendPratictionerId": {
+            "type": "string",
+            "description": "ID of the professional who performed the suspension",
+            "format": "uuid"
+          },
+          "suspendRetroactiveJustificative": {
+            "type": "string",
+            "description": "If the suspension was done retroactively, it should receive a justification",
+            "maxLength": null,
+            "pattern": ""
+          },
+          "suspendEventDateTime": {
+            "type": "string",
+            "description": "Date and time when the observation was suspended by a professional",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "individualId",
+          "basedOn",
+          "eventDateTime",
+          "performer",
+          "performerId"
+        ]
+      },
+      "localObservations": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Internal Id",
+            "format": "uuid"
+          },
+          "acronym": {
+            "type": "string",
+            "description": "Acronym of the vital sign in the source system",
+            "maxLength": 10
+          },
+          "standartsObservationsId": {
+            "type": "string",
+            "description": "Standart observation ID, if applicable",
+            "format": "uuid"
+          },
+          "display": {
+            "type": "string",
+            "description": "Display",
+            "maxLength": 100
+          },
+          "searchDisplay": {
+            "type": "string",
+            "description": "Search Display",
+            "maxLength": 100
+          },
+          "ucumId": {
+            "type": "string",
+            "description": "Id from Ucum (Unified Code for Units of Measure)",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "boolean",
+            "description": "Status"
+          },
+          "sourceId": {
+            "type": "string",
+            "description": "Id of the observation in the source application",
+            "maxLength": 15
+          },
+          "sourceApplicationId": {
+            "type": "string",
+            "description": "Id of the source application",
+            "maxLength": 5
+          }
+        },
+        "required": [
+          "id",
+          "display",
+          "searchDisplay",
+          "status",
+          "acronym"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "Authentication": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "To generate the access token (“Bearer token”), you need to authenticate yourself with the API."
+      }
+    },
+    "parameters": {
+      "page": {
+        "in": "query",
+        "required": false,
+        "description": "Define the size of the pagination. If not provided, the default is 20 records.",
+        "schema": {
+          "type": "string"
+        },
+        "name": "page"
+      },
+      "size": {
+        "in": "query",
+        "required": false,
+        "description": "Define the return page. If not provided, the default value is page 0.",
+        "schema": {
+          "type": "string"
+        },
+        "name": "size"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": true,
+        "description": "Tenant provided by SPData",
+        "schema": {
+          "type": "string"
+        },
+        "name": "x-tenant"
+      },
+      "x-subtenant": {
+        "in": "header",
+        "required": true,
+        "description": "Subtenant provided by SPData",
+        "schema": {
+          "type": "string"
+        },
+        "name": "x-subtenant"
+      },
+      "x-api-key": {
+        "in": "header",
+        "required": true,
+        "description": "The x-api-key should be obtained from the \"Get API Key by tenant\" endpoint (we suggest storing it for reuse).",
+        "schema": {
+          "type": "string"
+        },
+        "name": "x-api-key"
+      }
+    }
+  },
+  "security": [
+    {
+      "Authentication": []
+    }
+  ]
+}
